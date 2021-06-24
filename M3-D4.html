@@ -23,38 +23,47 @@
             9) Create a "Detail page" for the product. When the user clicks on a product name, the app should redirect him to the secondary page, passing the ASIN in query string
             10) In the detail page retrieve the ASIN from the query string and use it to fetch and show some details of the selected product (use this endpoint: https://striveschool-api.herokuapp.com/books/1940026091 to fetch the details of a specific book)
         -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 
 <body>
   <h1>List of books</h1>
-  <ul id="list_Book">
+  <ol id="list_Book">
 
-  </ul>
+  </ol>
   <script>
     //0)Get all the products from the API using a fetch 
     window.onload = () => {
       loadData()
     }
+
     const loadData = () => {
       fetch("https://striveschool-api.herokuapp.com/books")
         .then((resp) => {
           return resp.json()
         })
-        .then((data) =>
+        .then((books) => {
+          const item = document.getElementById("list_Book")
+          books.forEach((book, i) => {
 
-        //const item = document.getElementById("list_Book")
-        //books.forEach(item => {
-        //const listItem = document.createElement("li")
-        //listItem.innerText =
-        // item.appendChild(listItem)
-        //})
-
-        .catch(function (error) {
-          console.log(error)
+            const listItem = document.createElement("li")
+            listItem.innerText = books[i].asin + " - " + books[i].category + " - " + books[i].img + " - " + books[i].price + " - " + books[i].title
+            item.appendChild(listItem)
+          })
         })
+
+        .catch((error) =>
+          alert(error.message))
     }
 
   </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
