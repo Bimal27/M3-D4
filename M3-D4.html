@@ -28,34 +28,67 @@
 </head>
 
 <body>
-  <h1>List of books</h1>
-  <ol id="list_Book">
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand">Navbar</a>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </nav>
+  <div id="cart">
 
-  </ol>
+  </div>
+  <h1 class="text-center">List of our books</h1>
+  <div class="container">
+    <div id="book-wrapper" class="row">
+
+    </div>
+  </div>
+
   <script>
     //0)Get all the products from the API using a fetch 
     window.onload = () => {
       loadData()
     }
-
+    let booksArr = []
+    let shoppingCart = []
+    const bookWrapper = document.getElementById("book-wrapper")
     const loadData = () => {
       fetch("https://striveschool-api.herokuapp.com/books")
-        .then((resp) => {
-          return resp.json()
-        })
-        .then((books) => {
-          const item = document.getElementById("list_Book")
-          books.forEach((book, i) => {
+        .then((resp) => resp.json()).then((books) => {
+          booksArr = books
+          books.forEach(book => {
+            bookWrapper.innerHTML += `<div class="col-12 col-md-4 col-lg-3">
+                    <div class="card">
+                      <img src="${book.img}" class="card-img-top" style="height:300px" ;width:"auto"; alt="">
+                      <div class="card-body">
+                        <h6 class="card-title">${book.title}</h6>
+                        <p class="card-text">${book.category}
+                          </p>
+                       <div class="d-flex">
+                        <a href="#" class="btn btn-primary">€ ${book.price}</a>
+                        <button id='${book.asin}' onclick=addToCart(${book.asin}) class="btn btn-secondary text-align-center ml-auto" >Add to cart</button>
+                      </div>
+                </div>
+              </div>`
 
-            const listItem = document.createElement("li")
-            listItem.innerText = books[i].asin + " - " + books[i].category + " - " + books[i].img + " - " + books[i].price + " - " + books[i].title
-            item.appendChild(listItem)
           })
-        })
 
+        })
         .catch((error) =>
           alert(error.message))
     }
+    function addToCart(asin) {
+      //console.log(asin)
+      //console.log("booksArr", booksArr)
+      const book = booksArr.find((book) => book.asin.toString() === asin.toString())
+      //console.log(book)
+      //console.log("after find", booksArr)
+      shoppingCart.push(book)
+      //console.log(shoppingCart)
+
+    }
+
 
   </script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
