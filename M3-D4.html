@@ -94,7 +94,9 @@
                           </p>
                        <div class="d-flex">
                         <a href="#" class="btn btn-primary">€ ${book.price}</a>
+                        
                         <button id='${book.asin}' onclick="addToCart('${book.asin}', this)" class="btn btn-secondary text-align-center ml-auto" >Add to cart</button>
+                        <button class="btn btn-danger" onclick = "this.closest('.col-12').remove()"> Skip </button>
                       </div>
                 </div>
               </div>`
@@ -114,7 +116,7 @@
       shoppingCart.push(book)
       //console.log(shoppingCart)
       refreshShoppingCart()
-      element.closest(".card").classList.toggle("selected")
+      element.closest(".card").classList.add("selected")
 
     }
     function refreshShoppingCart() {
