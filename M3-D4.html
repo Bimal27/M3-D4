@@ -45,6 +45,10 @@
       max-height: unset;
       color: black;
     }
+
+    .selected {
+      border: 2px solid green;
+    }
   </style>
 </head>
 
@@ -90,7 +94,7 @@
                           </p>
                        <div class="d-flex">
                         <a href="#" class="btn btn-primary">€ ${book.price}</a>
-                        <button id='${book.asin}' onclick="addToCart('${book.asin}')" class="btn btn-secondary text-align-center ml-auto" >Add to cart</button>
+                        <button id='${book.asin}' onclick="addToCart('${book.asin}', this)" class="btn btn-secondary text-align-center ml-auto" >Add to cart</button>
                       </div>
                 </div>
               </div>`
@@ -101,7 +105,7 @@
         .catch((error) =>
           alert(error.message))
     }
-    function addToCart(asin) {
+    function addToCart(asin, element) {
       //console.log(asin)
       //console.log("booksArr", booksArr)
       const book = booksArr.find((book) => book.asin.toString() === asin.toString())
@@ -110,23 +114,23 @@
       shoppingCart.push(book)
       //console.log(shoppingCart)
       refreshShoppingCart()
+      element.closest(".card").parentNode.classList.toggle("selected")
 
     }
     function refreshShoppingCart() {
       cart.innerHTML = ""
       shoppingCart.forEach(book => {
-        shoppingList.innerHTML += `<div class="shopping-item"><p style="color:green";>Cart</p>
-          <ol>
+        shoppingList.innerHTML += `<div class="shopping-item">
+          <ul>
             <li>
-              ${book.title},
-          
-              € ${book.price} 
+              ${book.title}, € ${book.price} 
             </li>
-            </ol>
-          </div>`
+          </ul>
+        </div>`
       })
 
     }
+
 
 
   </script>
