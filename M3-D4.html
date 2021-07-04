@@ -30,21 +30,37 @@
       position: fixed;
       top: 50%;
       left: 0;
+      transform: translateY(-50%);
       min-width: 50px;
       min-height: 50px;
       max-width: 50px;
       max-height: 50px;
-      background-color: white;
+
       border: 1px solid black;
       z-index: 1;
-      color: white;
+      transition: all 0.4s;
     }
+
+    #cart>div {
+      opacity: 0;
+      transition: all 0.4s
+    }
+
+    #cart>div:hover {
+      opacity: 1;
+
+
+
+    }
+
 
     #cart:hover {
       max-width: unset;
-      max-height: unset;
-      color: black;
+      max-height: 70vh;
+      overflow-y: scroll;
+
     }
+
 
     .selected {
       border: 2px solid green;
@@ -77,6 +93,7 @@
       loadData()
     }
     let booksArr = []
+    let filteredBooks = []
     let shoppingCart = []
     const bookWrapper = document.getElementById("book-wrapper")
     const shoppingList = document.getElementById("cart")
@@ -125,13 +142,30 @@
         shoppingList.innerHTML += `<div class="shopping-item">
           <ul>
             <li>
-              ${book.title}, € ${book.price} 
-            </li>
+              ${book.title},
+         
+          € ${book.price} 
+          </li>
+          
+          
+            <div>
+              <button class="btn btn-danger" id="delete-button" onclick= "deleteItem('${String(book.asin)}')">Delete</button>
+            </div>
           </ul>
+          
         </div>`
       })
 
     }
+    function deleteItem(asin) {
+      const index = shoppingCart.findIndex((book) => book.asin === asin)
+      if (index !== -1) {
+        shoppingCart.splice(index, 1)
+      }
+      refreshShoppingCart()
+    }
+
+
 
 
 
